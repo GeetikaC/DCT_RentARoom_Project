@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rentaroom</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  	   <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+
+    <% if user_signed_in? %>
+			Welcome <%= current_user.username %>
+			<%= link_to "Account Settings", edit_user_registration_path %> |
+			<%= link_to "Logout", destroy_user_session_path, method: :delete %><br/>
+		<% else %>
+			<%= link_to "Register", new_user_registration_path %> | 
+			<%= link_to "Login", new_user_session_path %><br/>
+		<% end %>
+
+    <%= link_to "All Rooms", rooms_path %> |
+    <%= link_to "Amenities", amenities_path %> |
+    <%= link_to "City", cities_path %> |
+
+    <% if (user_signed_in?) %>
+      <%= link_to "My Rooms", controller: "rooms", action: "index", user_id: current_user.id %>|
+      <%= link_to "My Bookings", controller: "bookings", action: "index", user_id: current_user.id %><br/>
+    <% end %>
+
+
+    <%= yield %>
+  </body>
+  	<% if user_signed_in? %>
+		<p>Your current IP (<%= current_user.current_sign_in_ip %>) <p>
+	<% end %>
+</html>
